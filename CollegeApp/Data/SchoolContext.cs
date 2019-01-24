@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace CollegeApp.Models
@@ -13,6 +10,9 @@ namespace CollegeApp.Models
         {
         }
 
-        public DbSet<CollegeApp.Models.Student> Student { get; set; }
+        //public DbSet<CollegeApp.Models.Student> Student { get; set; }
+        public DbSet<Student> Student { get; set; }
+        public DbSet<Enrollment> Enrollment { get; set; }
+        public DbSet<Course> Course { get; set; }
     }
 }
