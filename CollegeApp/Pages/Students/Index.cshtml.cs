@@ -24,13 +24,20 @@ namespace CollegeApp.Pages.Students
         public string CurrentSort { get; set; }
         public IList<Student> Student { get;set; }
 
-        public async Task OnGetAsync(string sortOrder)
+        public async Task OnGetAsync(string sortOrder, string searchString)
         {
             NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             DateSort = sortOrder == "Date" ? "date_desc" : "Date";
+            CurrentFilter = searchString;
 
             IQueryable<Student> studentIQ = from s in _context.Student
                                             select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                studentIQ = studentIQ.Where(s => s.LastName.Contains(searchString)
+                                       || s.FirstMidName.Contains(searchString));
+            }
 
             switch (sortOrder)
             {
