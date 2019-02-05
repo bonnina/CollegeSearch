@@ -8,7 +8,6 @@ namespace CollegeApp.Models
     {
         public static void Initialize(SchoolContext context)
         {
-            // context.Database.EnsureCreated();
 
             if (context.Student.Any())
             {
