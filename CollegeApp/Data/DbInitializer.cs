@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using CollegeApp.Models;
 
-namespace CollegeApp.Data
+namespace CollegeApp.Models
 {
     public static class DbInitializer
     {
@@ -112,7 +112,7 @@ namespace CollegeApp.Data
 
             foreach (Course c in courses)
             {
-                context.Courses.Add(c);
+                context.Course.Add(c);
             }
             context.SaveChanges();
 
