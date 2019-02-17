@@ -23,7 +23,9 @@ namespace CollegeApp.Pages.Courses
         public async Task OnGetAsync()
         {
             Course = await _context.Course
-                .Include(c => c.Department).ToListAsync();
+                .Include(c => c.Department)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

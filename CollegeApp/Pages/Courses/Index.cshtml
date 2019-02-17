@@ -2,10 +2,10 @@
 @model CollegeApp.Pages.Courses.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Courses";
 }
 
-<h2>Index</h2>
+<h2>Courses</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -13,6 +13,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].CourseID)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Course[0].Title)
             </th>
@@ -28,6 +31,9 @@
     <tbody>
 @foreach (var item in Model.Course) {
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].CourseID)
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -35,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Credits)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Department.DepartmentID)
+                @Html.DisplayFor(modelItem => item.Department.Name)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.CourseID">Edit</a> |
