@@ -42,16 +42,16 @@ namespace CollegeApp.Pages.Instructors
             if (id != null)
             {
                 InstructorID = id.Value;
-                Instructor instructor = Instructor.Instructors.Where(
-                    i => i.ID == id.Value).Single();
+                Instructor instructor = Instructor.Instructors.Single(
+                    i => i.ID == id.Value);
                 Instructor.Courses = instructor.CourseAssignments.Select(s => s.Course);
             }
 
             if (courseID != null)
             {
                 CourseID = courseID.Value;
-                Instructor.Enrollments = Instructor.Courses.Where(
-                    x => x.CourseID == courseID).Single().Enrollments;
+                Instructor.Enrollments = Instructor.Courses.Single(
+                    x => x.CourseID == courseID).Enrollments;
             }
         }
     }
