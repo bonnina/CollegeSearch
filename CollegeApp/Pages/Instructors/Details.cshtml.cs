@@ -35,5 +35,22 @@ namespace CollegeApp.Pages.Instructors
             }
             return Page();
         }
+
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+            Instructor instructor = await _context.Instructors
+                .Include(i => i.CourseAssignments)
+                .SingleAsync(i => i.ID == id);
+
+            var departments = await _context.Departments
+                .Where(d => d.InstructorID == id)
+                .ToListAsync();
+            departments.ForEach(d => d.InstructorID = null);
+
+            _context.Instructors.Remove(instructor);
+
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Index");
+        }
     }
 }
