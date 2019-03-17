@@ -20,8 +20,9 @@ namespace CollegeApp.Pages.Departments
 
         [BindProperty]
         public Department Department { get; set; }
+        public string ConcurrencyErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id, bool? concurrencyError)
         {
             if (id == null)
             {
@@ -35,25 +36,36 @@ namespace CollegeApp.Pages.Departments
             {
                 return NotFound();
             }
+
+            if (concurrencyError.GetValueOrDefault())
+            {
+                ConcurrencyErrorMessage = "The record you attempted to delete "
+                  + "was modified by another user after you selected delete. "
+                  + "The delete operation was canceled and the current values in the "
+                  + "database have been displayed. If you still want to delete this "
+                  + "record, click the Delete button again.";
+            }
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (await _context.Departments.AnyAsync(
+                    m => m.DepartmentID == id))
+                {
+                    _context.Departments.Remove(Department);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToPage("./Index");
             }
-
-            Department = await _context.Departments.FindAsync(id);
-
-            if (Department != null)
+            catch (DbUpdateConcurrencyException)
             {
-                _context.Departments.Remove(Department);
-                await _context.SaveChangesAsync();
+                return RedirectToPage("./Delete",
+                    new { concurrencyError = true, id = id });
             }
-
-            return RedirectToPage("./Index");
         }
     }
 }
