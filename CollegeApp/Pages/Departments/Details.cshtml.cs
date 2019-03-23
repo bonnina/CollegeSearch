@@ -27,8 +27,13 @@ namespace CollegeApp.Pages.Departments
                 return NotFound();
             }
 
+            string query = "SELECT * FROM Department WHERE DepartmentID = {0}";
             Department = await _context.Departments
-                .Include(d => d.Administrator).FirstOrDefaultAsync(m => m.DepartmentID == id);
+                .FromSql(query, id)
+                .Include(d => d.Administrator)
+                //  .FirstOrDefaultAsync(m => m.DepartmentID == id);
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
 
             if (Department == null)
             {
